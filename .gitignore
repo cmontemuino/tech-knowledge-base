@@ -1,0 +1,58 @@
+# IDE and Editor files
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build artifacts and compiled files
+*.o
+*.class
+*.pyc
+*.pyo
+__pycache__/
+*.so
+*.dylib
+target/
+build/
+dist/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+.tmp/
+
+# Documentation build outputs
+_site/
+.jekyll-cache/
+.sass-cache/
+site/
+docs/_build/
+
+# Language specific
+.env
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.toc
+*.synctex.gz
+
+# Archive and backup files
+*.zip
+*.tar.gz
+*.rar
+*.backup
