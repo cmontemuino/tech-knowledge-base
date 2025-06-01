@@ -53,6 +53,11 @@ This approach allows both clusters to run simultaneously without port conflicts.
 
 ## NGINX Ingress Controller
 
+> [!NOTE]  
+> The NGINX Ingress Controller is included purely for demonstration purposes. It showcases how to deploy and configure applications
+> in different cluster topologies. The memory limits are set conservatively (256MB) to ensure the ingress controller runs smoothly
+> on local development machines.
+
 ## Quick Start
 
 ## Advanced Configuration
