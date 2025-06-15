@@ -55,4 +55,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-> 💡 **Pro Tip**: Star this repository to stay updated with new technical insights and platform engineering patterns!
+> [!TIP]
+> Star this repository to stay updated with new technical insights and platform engineering patterns!
