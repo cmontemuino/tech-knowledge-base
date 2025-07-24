@@ -1,6 +1,6 @@
 # Exploring AMD MI300X: A Deep Dive into High-Performance AI Computing
 
-The landscape of AI and machine learning infrastructure is rapidly evolving, with AMD's MI300X representing a significant leap forward in accelerated computing capabilities. This exploration documents hands-on experience with a Dell PowerEdge XE9680[^1] server equipped with eight MI300X accelerators[^2], providing insights into architecture, performance characteristics, and practical deployment considerations for modern AI workloads.
+The landscape of AI and machine learning infrastructure is rapidly evolving, with AMD's MI300X representing a significant leap forward in accelerated computing capabilities. This exploration documents hands-on experience with a Dell PowerEdge XE9680[[^1] server equipped with eight MI300X accelerators[^2], providing insights into architecture, performance characteristics, and practical deployment considerations for modern AI workloads.
 
 > **Context**: AMD Instinct accelerators have been deployed on several supercomputers of the Green500 list (June 2025)[^3]. On the first position of the ranking is "El Capitan"[^4], with the MI300A model. A very similar setup to our server is used by "Ironman"[^5], taking place 380th on the list.
 
@@ -310,6 +310,8 @@ $ sudo dnf install rocm-smi
 # Installed:
 #  rocm-smi-5.7.1-1.el9.x86_64
 ```
+
+## References
 
 [^1]: https://www.dell.com/en-us/shop/ipovw/poweredge-xe9680
 [^2]: https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html
