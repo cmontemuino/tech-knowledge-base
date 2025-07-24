@@ -311,13 +311,13 @@ $ sudo dnf install rocm-smi
 #  rocm-smi-5.7.1-1.el9.x86_64
 ```
 
-[1]: https://www.dell.com/en-us/shop/ipovw/poweredge-xe9680
-[2]: https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html
-[3]: https://top500.org/system/180307/
-[4]: https://top500.org/lists/top500/2025/06/
-[5]: https://top500.org/system/180334/
-[6]: https://www.intel.com/content/www/us/en/products/sku/237558/intel-xeon-platinum-8562y-processor-60m-cache-2-80-ghz/specifications.html
-[7]: https://lenovopress.lenovo.com/lp1465.pdf
-[8]: https://www.amd.com/content/dam/amd/en/documents/pensando-technical-docs/article/amd-ai-networking-direction-and-strategy.pdf
-[9]: https://rocm.blogs.amd.com/software-tools-optimization/mi300x-rccl-xgmi/README.html
-[10]: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf
+[^1]: https://www.dell.com/en-us/shop/ipovw/poweredge-xe9680
+[^2]: https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html
+[^3]: https://top500.org/system/180307/
+[^4]: https://top500.org/lists/top500/2025/06/
+[^5]: https://top500.org/system/180334/
+[^6]: https://www.intel.com/content/www/us/en/products/sku/237558/intel-xeon-platinum-8562y-processor-60m-cache-2-80-ghz/specifications.html
+[^7]: https://lenovopress.lenovo.com/lp1465.pdf
+[^8]: https://www.amd.com/content/dam/amd/en/documents/pensando-technical-docs/article/amd-ai-networking-direction-and-strategy.pdf
+[^9]: https://rocm.blogs.amd.com/software-tools-optimization/mi300x-rccl-xgmi/README.html
+[^10]: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf
