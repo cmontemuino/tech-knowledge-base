@@ -1,4 +1,4 @@
-# Exploring AMD MI300X Hardware: A Deep Dive into High-Performance AI Computing
+# AMD MI300X for High-Performance AI Computing: Understanding the Hardware
 
 The landscape of AI and machine learning infrastructure is rapidly evolving, with AMD's MI300X representing a significant leap forward in accelerated computing capabilities. This exploration documents hands-on experience with a Dell PowerEdge XE9680[[^1] server equipped with eight MI300X accelerators[^2], providing insights into architecture, performance characteristics, and practical deployment considerations for modern AI workloads.
 
