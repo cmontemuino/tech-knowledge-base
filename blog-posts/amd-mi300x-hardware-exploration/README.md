@@ -1,4 +1,4 @@
-# Exploring AMD MI300X: A Deep Dive into High-Performance AI Computing
+# Exploring AMD MI300X Hardware: A Deep Dive into High-Performance AI Computing
 
 The landscape of AI and machine learning infrastructure is rapidly evolving, with AMD's MI300X representing a significant leap forward in accelerated computing capabilities. This exploration documents hands-on experience with a Dell PowerEdge XE9680[[^1] server equipped with eight MI300X accelerators[^2], providing insights into architecture, performance characteristics, and practical deployment considerations for modern AI workloads.
 
@@ -6,7 +6,7 @@ The landscape of AI and machine learning infrastructure is rapidly evolving, wit
 
 ## System Overview
 
-We focus on a single multi-GPU server featuring eight AMD MI300X GPUs and dual Intel Xeon Platinum 8562Y+ CPUs[^6], along with Infinity Fabric interconnect for inter-GPU communication. The server is a Dell PowerEdge XE9680 Rack Server running OracleLinux 9.6 (arch: x86_64, kernel: 5.14.0).
+We focus on a sing Dell PowerEdge XE9680 compute node containing **8 AMD MI300X accelerators** and dual Intel Xeon Platinum 8562Y+ CPUs[^6]. The AMD MI300X represents AMD's latest generation of data center GPU, built on the advanced CDNA 3 architecture[^7] and manufactured using TSMC's 5nm process technology. Each MI300X delivers a peak performance of **81.7 TFLOPS in double-precision (FP64) vector addition**.
 
 The inter-connectivity of this multi-GPU node demonstrates a high-performance architecture optimized for AI and HPC workloads. An important and unique particularity of this system is that each MI300X GPU is built up of eight Accelerated Compute Dies (XCDs) with 24 GB HBM3 memory per XCD, offering a peak bandwidth of 5.3 TB/s per GPU. Each XCD has a 4 MB L2 cache shared between all compute units, with each compute unit featuring 32 KB of L1 cache. From a user's perspective, each XCD can operate independently, as an XCD features its own compute units within the shared memory architecture of the MI300X package.
 
@@ -18,7 +18,7 @@ The following image depicts the architecture diagram of this server:
 
 ## Performance Profile Configuration
 
-We have configured the processors with Intel® Speed Select Technology - Performance Profile (SST-PP)[^7] with profile 0 on both CPUs. This is the base profile with all cores active (32 cores per CPU), operating at 2,800MHz base frequency with 300W TDP.
+We have configured the processors with Intel® Speed Select Technology - Performance Profile (SST-PP)[^9] with profile 0 on both CPUs. This is the base profile with all cores active (32 cores per CPU), operating at 2,800MHz base frequency with 300W TDP.
 
 ```shell
 $ sudo intel-speed-select perf-profile get-config-current-level
@@ -240,12 +240,23 @@ When binding processes to NUMA domains:
 
 ## Appendix C - Understanding the MI300X Configuration
 
-Each discrete MI300X GPU contains **8 Accelerated Compute Dies (XCDs)**, each with 304 high-throughput Compute Units (CU)[^10]. An **XCD is a physical silicon die** within each MI300X GPU that contains the actual compute resources. We can think of it as a "mini-GPU" chiplet. Each XCD includes:
-
+Each discrete MI300X GPU contains **8 Accelerated Compute Dies (XCDs)**, each with 304 high-throughput Compute Units (CU)[^11]. An **XCD is a physical silicon die** within each MI300X GPU that contains the actual compute resources. We can think of it as a "mini-GPU" chiplet:
 - **38 CUs** - the basic processing blocks
 - **32KB L1 Cache** per CU
-- **4MB shared L2 cache** across all CUs within that XCD
+- **4MB shared L2 cache** across all CUs within that XCD that serves to coalesce all memory traffic for the die
 - **2,432 Stream Processors** (38 CUs × 64 stream processors per CU)
+
+Each XCD contains **4 Asynchronous Compute Engines (ACEs)**. These ACEs are responsible for sending compute shader workgroups to the Compute Units within that XCD
+The architecture works as follows:
+- **4 ACEs per XCD** manage workload distribution
+- Each ACE can dispatch workgroups to any of the available CUs in that XCD
+- The ACEs handle the scheduling and distribution of compute tasks across the CUs
+
+A command processor in each GPU receives API commands and transforms them into compute tasks. These compute tasks are managed by the compute engines, which dispatch **wavefronts** to the available compute units. All wavefronts from a single **workgroup** are assigned to the same CU, ensuring locality and efficient resource utilization. In CUDA terminology, workgroups are "blocks", wavefronts are "warps", and work-items are "threads". The terms are often used interchangeably across GPU programming frameworks.
+
+Physically, each XDC contains 40 CUs, but **two are disabled for yield management** during manufacturing. This is a standard practice in semiconductor manufacturing to improve production yields. By having spare CUs that can be disabled if they have defects during manufacturing, AMD can still ship functional GPUs even if some CUs don't pass quality testing.
+
+The **304 CUs across the entire MI300X** deliver a peak performance of **81.7 TFLOPS in double precision (FP64)**, representing a significant advancement in computational capability. Each MI300X contains **192 GB of high-bandwidth memory (HBM3)** accessible at a peak bandwidth of **5.3 TB/s**, providing substantial memory capacity and throughput for large-scale AI and scientific computing workloads.
 
 ### System-Wide Configuration
 
@@ -319,7 +330,8 @@ $ sudo dnf install rocm-smi
 [^4]: https://top500.org/lists/top500/2025/06/
 [^5]: https://top500.org/system/180334/
 [^6]: https://www.intel.com/content/www/us/en/products/sku/237558/intel-xeon-platinum-8562y-processor-60m-cache-2-80-ghz/specifications.html
-[^7]: https://lenovopress.lenovo.com/lp1465.pdf
-[^8]: https://www.amd.com/content/dam/amd/en/documents/pensando-technical-docs/article/amd-ai-networking-direction-and-strategy.pdf
-[^9]: https://rocm.blogs.amd.com/software-tools-optimization/mi300x-rccl-xgmi/README.html
-[^10]: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf
+[^7]: https://rocm.docs.amd.com/en/latest/conceptual/gpu-arch/mi300.html
+[^8]: https://lenovopress.lenovo.com/lp1465.pdf
+[^9]: https://www.amd.com/content/dam/amd/en/documents/pensando-technical-docs/article/amd-ai-networking-direction-and-strategy.pdf
+[^10]: https://rocm.blogs.amd.com/software-tools-optimization/mi300x-rccl-xgmi/README.html
+[^11]: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf
