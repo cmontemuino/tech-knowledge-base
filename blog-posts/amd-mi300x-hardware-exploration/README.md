@@ -184,7 +184,11 @@ This interleaved assignment means each NUMA domain contains one hyperthread from
 - **NUMA Node 0**: Contains first hyperthread from each physical core (even-numbered threads)
 - **NUMA Node 1**: Contains second hyperthread from each physical core (odd-numbered threads)
 
-### GPU NUMA Affinity
+### GPU Topology and NUMA Architecture
+
+The system's GPU topology reveals an interconnect architecture optimized for high-performance parallel computing workloads.
+
+#### NUMA Domain Distribution
 
 ```shell
 $ rocm-smi --showtoponuma
@@ -210,12 +214,31 @@ GPU[7]          : (Topology) Numa Affinity: 1
 =============================== End of ROCm SMI Log ================================
 ```
 
+#### Fully Connected Mesh Architecture
+
+The topology analysis confirms the MI300X configuration implements a **fully connected mesh topology**,.
+
+```shell
+# Partial output from `rocm-smi --showtopo`
+
+============================== Hops between two GPUs ===============================
+       GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7
+GPU0   0       1       1       1       1       1       1       1
+GPU1   1       0       1       1       1       1       1       1
+GPU2   1       1       0       1       1       1       1       1
+GPU3   1       1       1       0       1       1       1       1
+GPU4   1       1       1       1       0       1       1       1
+GPU5   1       1       1       1       1       0       1       1
+GPU6   1       1       1       1       1       1       0       1
+GPU7   1       1       1       1       1       1       1       0
+```
+
 ### Memory Access Patterns
 
 The NUMA distance table shows relative cost multipliers for memory access:
 
 - **Distance 10**: Local access (baseline cost)
-- **Distance 21**: Remote access (2.1x the cost of local access)
+- **Distance 21**: Remote access (cross-NUMA access) ~2.1x higher latency (based on NUMA distance ratio 21:10)
 - These represent relative performance ratios, not absolute time measurements
 
 ### Performance Implications
@@ -296,11 +319,45 @@ This chiplet approach provides several advantages for deep learning and LLM work
 
 AMD Infinity Fabric in the MI300X uses xGMI (External Global Memory Interconnect) technology to create high-speed GPU-to-GPU communications.
 
+```shell
+# Partial output from `rocm-smi --showtopo`
+
+============================ Link Type between two GPUs ============================
+       GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7
+GPU0   0       XGMI    XGMI    XGMI    XGMI    XGMI    XGMI    XGMI
+GPU1   XGMI    0       XGMI    XGMI    XGMI    XGMI    XGMI    XGMI
+GPU2   XGMI    XGMI    0       XGMI    XGMI    XGMI    XGMI    XGMI
+GPU3   XGMI    XGMI    XGMI    0       XGMI    XGMI    XGMI    XGMI
+GPU4   XGMI    XGMI    XGMI    XGMI    0       XGMI    XGMI    XGMI
+GPU5   XGMI    XGMI    XGMI    XGMI    XGMI    0       XGMI    XGMI
+GPU6   XGMI    XGMI    XGMI    XGMI    XGMI    XGMI    0       XGMI
+GPU7   XGMI    XGMI    XGMI    XGMI    XGMI    XGMI    XGMI    0
+```
+
 ### Technical Implementation
 
 - Each xGMI link uses **16 lanes at 32 Gbps per lane**
 - The interconnect operates at **25 GT/s transaction rate with 16 bits per transaction**
 - **Zero-copy memory access** is supported, allowing any GPU to directly access another GPU's HBM3 memory without local copying
+
+### Communication Weights
+
+```shell
+# Partial output from `rocm-smi --showtopo`
+
+============================= Weight between two GPUs ==============================
+       GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7
+GPU0   0       15      15      15      15      15      15      15
+GPU1   15      0       15      15      15      15      15      15
+GPU2   15      15      0       15      15      15      15      15
+GPU3   15      15      15      0       15      15      15      15
+GPU4   15      15      15      15      0       15      15      15
+GPU5   15      15      15      15      15      0       15      15
+GPU6   15      15      15      15      15      15      0       15
+GPU7   15      15      15      15      15      15      15      0
+```
+
+The uniform **weight of 15** between all GPU pairs indicates consistent communication costs across the entire mesh, regardless of NUMA domain boundaries. This suggests that **xGMI bandwidth and latency characteristics are identical** for all GPU-to-GPU connections.
 
 ### Performance Characteristics
 
