@@ -275,7 +275,9 @@ When building LLVM locally, the default Triton build script (`build-llvm-project
 - **Position Independent Code (PIC)**: Enable shared library compilation (`-DBUILD_SHARED_LIBS=ON`, `-DCMAKE_POSITION_INDEPENDENT_CODE=ON`)
 - **Runtime path resolution**: `-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON` eliminates dependency conflicts
 
-These modifications prevent **static-to-shared linking problems** where LLVM attempts to create shared libraries by linking static compiled without PIC
+These modifications prevent **static-to-shared linking problems** where LLVM attempts to create shared libraries by linking static compiled without PIC.
+
+The build process results in **LLVM binaries specifically compiled against your system's C++ runtime**. The resulting tools are installed in `~/.triton/llvm/llvm-ubuntu-x64/`. This **naming convention is cosmetic** and does not affect Oracle Linux compatibility.
 
 ## References
 
