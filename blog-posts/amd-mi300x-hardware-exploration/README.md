@@ -50,7 +50,7 @@ This server is intended to fulfill the following types of workloads:
 
 ### Deep Learning Optimization
 
-Deep learning training is highly parallelizable and scales well with more compute cores, leading to better throughput. Full memory bandwidth is paramount to support larger batch sizes. The SST-PP Profile 0 is ideal for this type of workload because:
+Deep learning training is highly parallelizable and scales well with more compute cores, leading to better throughput. Full memory bandwidth is essential to support larger batch sizes. The SST-PP Profile 0 is ideal for this type of workload because:
 
 - **Maximum parallelism**: All cores are available for data preprocessing and model computation
 - **Consistent performance**: Stable frequencies provide predictable training times

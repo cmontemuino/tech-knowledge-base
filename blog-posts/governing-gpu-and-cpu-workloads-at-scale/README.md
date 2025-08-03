@@ -35,7 +35,7 @@ Kyverno 1.14 introduces **ValidatingPolicy**, a specialized policy type that str
 
 ### Kubernetes Version Requirements
 
-Understanding the compatibility matrix is crucial for planning your data platform governance strategy:
+Understanding the compatibility matrix is essential for planning your data platform governance strategy:
 
 - **Kubernetes 1.30+** is the recommended minimum for production ValidatingPolicy deployments [^4][^6][^8]
 - **Kubernetes 1.32+** is required for NUMA-aware Memory Manager features when using Volcano

@@ -4,7 +4,7 @@ This is the second part series on AMD MI300X for High-Performance AI Computing. 
 
 ## Why This Guide Matters
 
-Installing ROCm (Radeon Open Compute)[^2] software stack is of paramount importance to unlock MI300X GPUs, especially for AI workloads. While AMD provides excellent documentation[^3], enterprise environments sometimes present unique challenges:
+Installing ROCm (Radeon Open Compute)[^2] software stack is of utmost importance to unlock MI300X GPUs, especially for AI workloads. While AMD provides excellent documentation[^3], enterprise environments sometimes present unique challenges:
 
 - **Air-gapped systems** without internet access
 - **Specific kernel versions**
@@ -93,7 +93,7 @@ $ sudo find /boot -name "grub.cfg" -o -name "grub2.cfg"
 /boot/grub2/grub.cfg
 ```
 
-Therefore, it is crucial to regenerate `/boot/efi/EFI/redhat/grub.cfg` in this case:
+It is imperative to regenerate `/boot/efi/EFI/redhat/grub.cfg` in this case:
 
 ```shell
 # Edit GRUB defaults
@@ -380,7 +380,7 @@ $ sudo dkms status
 amdgpu/6.12.12-2187269.el9, 5.14.0-570.30.1.0.1.el9_6.x86_64, x86_64: installed
 ```
 
-No go and **reboot** the server to load the new kernel modules.
+Now go and **reboot** the server to load the new kernel modules.
 
 After reboot, verify AMD modules are loaded:
 ```shell
@@ -666,7 +666,7 @@ From **Appendix D - xGMI Implementation Details**[^1]:
 
 The ~92 GB/s average xGMI throughput represents excellent real-world performance:
 - **Theoretical maximum**: 128 GB/s bidirectional per link[8]
-- **Your measured performance**: 92.38 GB/s (**72% efficiency**)
+- **Measured performance**: 92.38 GB/s (**72% efficiency**)
 - **Industry typical**: 60-80 GB/s practical throughput
 
 This performance validates that system system optimization (GRUB configuration, ROCm installation) achieved optimal hardware utilization.
