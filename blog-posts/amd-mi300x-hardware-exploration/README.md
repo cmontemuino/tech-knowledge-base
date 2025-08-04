@@ -6,7 +6,7 @@ The landscape of AI and machine learning infrastructure is rapidly evolving, wit
 
 ## System Overview
 
-We focus on a sing Dell PowerEdge XE9680 compute node containing **8 AMD MI300X accelerators** and dual Intel Xeon Platinum 8562Y+ CPUs[^6]. The AMD MI300X represents AMD's latest generation of data center GPU, built on the advanced CDNA 3 architecture[^7] and manufactured using TSMC's 5nm process technology. Each MI300X delivers a peak performance of **81.7 TFLOPS in double-precision (FP64) vector addition**.
+We focus on a single Dell PowerEdge XE9680 compute node containing **8 AMD MI300X accelerators** and dual Intel Xeon Platinum 8562Y+ CPUs[^6]. The AMD MI300X represents AMD's latest generation of data center GPU, built on the advanced CDNA 3 architecture[^7] and manufactured using TSMC's 5nm process technology. Each MI300X delivers a peak performance of **81.7 TFLOPS in double-precision (FP64) vector addition**.
 
 The inter-connectivity of this multi-GPU node demonstrates a high-performance architecture optimized for AI and HPC workloads. An important and unique particularity of this system is that each MI300X GPU is built up of eight Accelerated Compute Dies (XCDs) with 24 GB HBM3 memory per XCD, offering a peak bandwidth of 5.3 TB/s per GPU. Each XCD has a 4 MB L2 cache shared between all compute units, with each compute unit featuring 32 KB of L1 cache. From a user's perspective, each XCD can operate independently, as an XCD features its own compute units within the shared memory architecture of the MI300X package.
 
